@@ -185,10 +185,14 @@ app.post(["/messages", "/mcp", "/"], async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-const serverInstance = app.listen(PORT, () => {
-  console.log(`LinkedIn MCP Server listening on port ${PORT}`);
-  console.log(`SSE endpoint: http://localhost:${PORT}/mcp`);
-  console.log(`Messages endpoint: http://localhost:${PORT}/messages`);
-});
+let serverInstance = null;
+if (!process.env.VERCEL) {
+  serverInstance = app.listen(PORT, () => {
+    console.log(`LinkedIn MCP Server listening on port ${PORT}`);
+    console.log(`SSE endpoint: http://localhost:${PORT}/mcp`);
+    console.log(`Messages endpoint: http://localhost:${PORT}/messages`);
+  });
+}
 
+export default app;
 export { app, server, transports, serverInstance };
